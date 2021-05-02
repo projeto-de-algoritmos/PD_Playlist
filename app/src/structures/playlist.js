@@ -1,50 +1,50 @@
 class Playlist {
 
-    items;
+    videos;
     M;
     solution;
 
     // M[item][peso_restante]
 
-    constructor(items) {
-        this.items = [0, ...items];
+    constructor(videos) {
+        this.videos = [0, ...videos];
         this.M = [];
         this.solution = [];
     }
 
-    setM(totalWeight) {
-        for (let i = 0; i < this.items.length; i++) {
-            this.M[i] = Array(totalWeight+1);
+    setM(totalTime) {
+        for (let i = 0; i < this.videos.length; i++) {
+            this.M[i] = Array(totalTime+1);
         }
     }
 
-    getOPT(totalWeight) {
-        this.setM(totalWeight);
+    getOPT(totalTime) {
+        this.setM(totalTime);
         this.knapsack();
-        this.findSolution(this.items.length-1, totalWeight);
+        this.findSolution(this.videos.length-1, totalTime);
         return this.solution;
     }
 
     knapsack() {
-        let num_weights = this.M[0].length-1;
-        let num_items = this.M.length-1;
+        let num_times = this.M[0].length-1;
+        let num_videos = this.M.length-1;
 
-        for (let i = 0; i <= num_weights; i++) {
+        for (let i = 0; i <= num_times; i++) {
             this.M[0][i] = 0;
         }
 
-        for (let i = 0; i <= num_items; i++) {
+        for (let i = 0; i <= num_videos; i++) {
             this.M[i][0] = 0;
         }
 
-        for (let i = 1; i <= num_items; i++) {
-            for (let w = 1; w <= num_weights; w++) {
-                if (this.items[i].weight > w) {
+        for (let i = 1; i <= num_videos; i++) {
+            for (let w = 1; w <= num_times; w++) {
+                if (this.videos[i].time > w) {
                     this.M[i][w] = this.M[i-1][w]
                 }
                 else {
                     this.M[i][w] = this.max(this.M[i-1][w], 
-                                            this.items[i].value + this.M[i-1][w-this.items[i].weight]);
+                                            this.videos[i].priority + this.M[i-1][w-this.videos[i].time]);
                 }
             }
         }
@@ -57,10 +57,10 @@ class Playlist {
     }
 
     findSolution(i, w) {
-        if (this.M[i][w] == 0) return;
-        if (this.M[i-1][w-this.items[i].weight] + this.items[i].value == this.M[i][w]) {
-            this.solution.push(this.items[i]);
-            this.findSolution(i-1, w-this.items[i].weight);
+        if (i <= 0) return;
+        if (this.M[i-1][w-this.videos[i].time] + this.videos[i].priority === this.M[i][w]) {
+            this.solution.push(this.videos[i]);
+            this.findSolution(i-1, w-this.videos[i].time);
         }
         else {
             this.findSolution(i-1, w);
@@ -69,15 +69,15 @@ class Playlist {
 
 }
 
-// items = [
-//     {weight: 1, value: 1},
-//     {weight: 2, value: 6},
-//     {weight: 5, value: 18},
-//     {weight: 6, value: 22},
-//     {weight: 7, value: 28}
+// videos = [
+//     {time: 1, priority: 1},
+//     {time: 2, priority: 6},
+//     {time: 5, priority: 18},
+//     {time: 6, priority: 22},
+//     {time: 7, priority: 28}
 // ]
 
-// let teste = new Playlist(items)
+// let teste = new Playlist(videos)
 // console.log(teste.getOPT(11));
 
 export default Playlist;
