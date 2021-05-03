@@ -1,3 +1,8 @@
+td{
+  margin: 10px;
+  border-top: 1px solid black;
+}
+
 .grid-container{
   display: grid;
   grid-template-columns: auto auto auto auto auto;
@@ -25,7 +30,27 @@
 }
 
 .channel{
+  display: grid;
+  grid-template-rows: 5% 10% 85%;
   background-color: #2a9d8f;
+  padding: 1vh;
+  text-align: center;
+}
+
+.channel > div > input{
+  width: 20%;
+}
+
+.tabela > table{
+  width: 100%;
+}
+
+.video-el{
+  padding: 1vh;
+}
+
+.tabela{
+  overflow:auto;
 }
 
 .resultado{
