@@ -10,20 +10,7 @@ function App() {
   
   const [channels, setChannels] = useState(getData);
   const [disponibleTime, setDisponibleTime] = useState(0);
-
-  // const up = (i) => {
-  //   let channels_cp = [...channels];
-  //   channels_cp[i].priority += 1;
-  //   setChannels([...channels_cp]);
-  // }
-
-  // const down = (i) => {
-  //   let channels_cp = [...channels];
-  //   if (channels_cp[i].priority > 0) {
-  //     channels_cp[i].priority -= 1;
-  //   }
-  //   setChannels([...channels_cp]);
-  // }
+  const [opt, setOpt] = useState([]);
 
   const main = () => {
     let channels_cp = [...channels];
@@ -32,7 +19,7 @@ function App() {
     }
     let videos = getAllVideos(channels_cp);
     let playlist = new Playlist(videos);
-    console.log(playlist.getOPT(disponibleTime));
+    setOpt(playlist.getOPT(disponibleTime));
   }
 
   const Videos = (props) => {
@@ -75,16 +62,27 @@ function App() {
     return res
   }
 
+  const Row = (props) => {
+    console.log(props.list);
+    console.log(typeof props.chave, props.chave)
+    if(props.list.length == 0){
+      return null
+    }
+    let res = [];
+    let lista = props.list;
+    let chave = props.chave;
+    for(let i = 0; i < lista.length; i++){
+      console.log(lista[i][chave])
+      res.push(
+        <td>
+          {lista[i][chave]}
+        </td>
+      )
+    }
+    return res
+  }
+
   return (
-    // <div>
-    //   {channels.map((canal, i) => (
-    //     <div key={i}>
-    //       <button onClick={(e) => up(i)}>aumentar</button>
-    //       <p>{canal.name} - {canal.priority}</p>
-    //       <button onClick={(e) => down(i)}>diminuir</button>
-    //     </div>
-    //   ))}
-    // </div>
     <div className = "grid-container">
       <div className="header">
         <text className="tittle">
@@ -98,7 +96,20 @@ function App() {
       </div>
       <Channel></Channel>
       <div className="resultado">
-        resultado
+        <table>
+          <tr>
+            <th>
+              Canal
+            </th>
+            <Row list={opt} chave="channel"></Row>
+          </tr>
+          <tr>
+            <th>
+              Vídeo
+            </th>
+            <Row list={opt} chave="name"></Row>
+          </tr>
+        </table>
       </div>
     </div>
   );

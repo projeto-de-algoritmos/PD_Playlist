@@ -1,4 +1,4 @@
-td{
+.tabela > table > tr > td{
   margin: 10px;
   border-top: 1px solid black;
 }
@@ -55,4 +55,21 @@ td{
 
 .resultado{
   grid-area: 4 / 1 / 5 / 6;
+  overflow-x: auto;
+}
+
+.resultado > table{
+  height: 100%;
+}
+
+.resultado > table > tr > th{
+  color: #e9c46a;
+}
+
+.resultado > table > tr > td{
+  background-color: rgb(81, 159, 231, 0.3);
+  color: #241a02;
+  text-align: center;
+  padding: 5px;
+  width: 30vw;
 }
